@@ -1,0 +1,74 @@
+.card {
+  width: 380px;
+  padding: 36px 32px 32px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 16px -6px rgba(0, 0, 0, 0.02);
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  object-fit: contain;
+}
+
+.title {
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 26px;
+  text-align: center;
+}
+
+.form {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.formTitle {
+  font-size: 13px;
+  color: #2f67ff;
+  margin: 0 0 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 24px;
+}
+
+.forgotPassword {
+  font-size: 12px;
+  color: #2f67ff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.forgotPassword:hover {
+  color: #1e50e2;
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.candidate-banner{
+  width: 1096px;
+}
