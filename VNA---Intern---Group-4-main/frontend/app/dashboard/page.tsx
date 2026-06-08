@@ -24,6 +24,9 @@ export default function Dashboard() {
   const [openSoftware, setOpenSoftware] = useState(false);
   const [openTeacher, setOpenTeacher] = useState(false);
   const [openPrincipal, setOpenPrincipal] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showChangeEmail, setShowChangeEmail] = useState(false);
+  const [showOtp, setShowOtp] = useState(false);
 
   const [activeMenu, setActiveMenu] = useState("home");
 
@@ -224,12 +227,17 @@ export default function Dashboard() {
 
               <button
                 onClick={() =>
-                  router.push(
-                    "/change-password"
-                  )
+                setShowChangePassword(true)
+                }
+                >
+                    Đổi mật khẩu
+              </button>
+              <button
+                onClick={() =>
+                  setShowOtp(true)
                 }
               >
-                Đổi mật khẩu
+                Đổi Email
               </button>
 
               <button
@@ -371,6 +379,102 @@ export default function Dashboard() {
   </div>
 </div>
  </main>
+ {/* Popup OTP */}
+{showOtp && (
+  <div className={styles.modalOverlay}>
+    <div className={styles.modal}>
+      <h2>THAY ĐỔI EMAIL</h2>
+
+      <p>
+        Chúng tôi đã gửi mã xác minh qua email cũ
+      </p>
+
+      <strong>
+        ....@example.com
+      </strong>
+
+      <input placeholder="OTP" />
+
+      <button
+        className={styles.primaryBtn}
+        onClick={() => {
+          setShowOtp(false);
+          setShowChangeEmail(true);
+        }}
+      >
+        Xác nhận
+      </button>
+
+      <button
+        onClick={() => setShowOtp(false)}
+      >
+        Hủy bỏ
+      </button>
+    </div>
+  </div>
+)}
+
+{/* Popup đổi email */}
+{showChangeEmail && (
+  <div className={styles.modalOverlay}>
+    <div className={styles.modal}>
+      <h2>THAY ĐỔI EMAIL</h2>
+
+      <input
+        type="email"
+        placeholder="Email mới"
+      />
+
+      <button className={styles.primaryBtn}>
+        Lưu
+      </button>
+
+      <button
+        onClick={() =>
+          setShowChangeEmail(false)
+        }
+      >
+        Hủy bỏ
+      </button>
+    </div>
+  </div>
+)}
+
+{/* Popup đổi mật khẩu */}
+{showChangePassword && (
+  <div className={styles.modalOverlay}>
+    <div className={styles.modal}>
+      <h2>Đổi mật khẩu</h2>
+
+      <input
+        type="password"
+        placeholder="Mật khẩu cũ"
+      />
+
+      <input
+        type="password"
+        placeholder="Mật khẩu mới"
+      />
+
+      <input
+        type="password"
+        placeholder="Nhập lại mật khẩu mới"
+      />
+
+      <button className={styles.primaryBtn}>
+        Lưu
+      </button>
+
+      <button
+        onClick={() =>
+          setShowChangePassword(false)
+        }
+      >
+        Hủy bỏ
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 }
