@@ -12,20 +12,37 @@ import {
   FaBook,
   FaSchool,
   FaChevronDown,
-  FaChevronRight
+  FaChevronRight,
+  FaRegCalendarAlt,
+  FaRegEye,
+  FaRegEyeSlash
 } from "react-icons/fa";
 
 export default function Dashboard() {
   const router = useRouter();
 
-  const [showMenu, setShowMenu] = useState(false);
-
-  const [openSystem, setOpenSystem] = useState(false);
+  // State điều khiển các menu con bên Sidebar
+  const [openSystem, setOpenSystem] = useState(true);
   const [openSoftware, setOpenSoftware] = useState(false);
   const [openTeacher, setOpenTeacher] = useState(false);
   const [openPrincipal, setOpenPrincipal] = useState(false);
+  
+  // State điều khiển menu User góc dưới trái
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [activeMenu, setActiveMenu] = useState("user-management");
 
-  const [activeMenu, setActiveMenu] = useState("home");
+  // State điều khiển trạng thái Kích hoạt (Switch button)
+  const [isActive, setIsActive] = useState(true);
+
+  // State điều khiển đóng/mở các loại Pop-up
+  const [showOtp, setShowOtp] = useState(false);
+  const [showChangeEmail, setShowChangeEmail] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+
+  // State ẩn/hiện mật khẩu trong Pop-up Đổi mật khẩu
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -34,343 +51,375 @@ export default function Dashboard() {
 
   return (
     <div className={styles.layout}>
+      
+      {/* SIDEBAR - THANH ĐIỀU HƯỚNG TRÁI */}
       <aside className={styles.sidebar}>
         <div className={styles.logo}>
-          <Image
-            src="/images/logo.png"
-            alt="Logo"
-            width={40}
-            height={40}
-          />
-
-          <span>
-            Hệ thống quản lý
-            <br />
-            An toàn vệ sinh lao động
-          </span>
+          <div className={styles.logoIconPlaceholder}>
+            <Image src="/images/logo.png" alt="Logo" width={32} height={32} />
+          </div>
+          <span>Ủy ban nhân dân<br />tỉnh ABC</span>
         </div>
 
-        <nav>
-          <ul className={styles.menu}>
+        <nav className={styles.navContainer}>
+          <div className={styles.menuSectionHeading}>Hướng dẫn sử dụng</div>
+          
+          <ul className={styles.menuList}>
             {/* Trang chủ */}
-            <li
-              className={
-                activeMenu === "home"
-                  ? styles.active
-                  : ""
-              }
+            <li 
+              className={activeMenu === "home" ? styles.menuItemActive : ""}
               onClick={() => setActiveMenu("home")}
             >
-              <span>
-                <FaHome />
-                Trang chủ
-              </span>
+              <span><FaHome className={styles.menuIcon} /> Trang chủ</span>
             </li>
 
             {/* Hệ thống */}
-            <li
-              onClick={() =>
-                setOpenSystem(!openSystem)
-              }
-            >
-              <span>
-                <FaCog />
-                Hệ thống
-              </span>
-
-              {openSystem ? (
-                <FaChevronDown />
-              ) : (
-                <FaChevronRight />
-              )}
+            <li onClick={() => setOpenSystem(!openSystem)}>
+              <span><FaCog className={styles.menuIcon} /> Hệ thống</span>
+              {openSystem ? <FaChevronDown className={styles.arrowIcon} /> : <FaChevronRight className={styles.arrowIcon} />}
             </li>
 
             {openSystem && (
               <ul className={styles.subMenu}>
-                <li
-                  onClick={() =>
-                    router.push("/users")
-                  }
+                <li 
+                  className={activeMenu === "user-management" ? styles.subItemActive : ""}
+                  onClick={() => setActiveMenu("user-management")}
                 >
                   Quản lý người dùng
                 </li>
-
-                <li
-                  onClick={() =>
-                    router.push("/roles")
-                  }
-                >
-                  Vai trò người dùng
-                </li>
-
-                <li
-                  onClick={() =>
-                    router.push("/receive")
-                  }
-                >
-                  Tiếp nhận
-                </li>
+                <li onClick={() => router.push("/roles")}>Vai trò người dùng</li>
+                <li onClick={() => router.push("/receive")}>Tiếp nhận</li>
               </ul>
             )}
 
             {/* Quản trị phần mềm */}
-            <li
-              onClick={() =>
-                setOpenSoftware(!openSoftware)
-              }
-            >
-              <span>
-                <FaLaptopCode />
-                Quản trị phần mềm
-              </span>
-
-              {openSoftware ? (
-                <FaChevronDown />
-              ) : (
-                <FaChevronRight />
-              )}
+            <li onClick={() => setOpenSoftware(!openSoftware)}>
+              <span><FaLaptopCode className={styles.menuIcon} /> Quản trị phần mềm</span>
+              {openSoftware ? <FaChevronDown className={styles.arrowIcon} /> : <FaChevronRight className={styles.arrowIcon} />}
             </li>
-
-            {openSoftware && (
-              <ul className={styles.subMenu}>
-                <li>Danh mục</li>
-                <li>Cấu hình hệ thống</li>
-                <li>Nhật ký hệ thống</li>
-              </ul>
-            )}
 
             {/* Chuẩn nghề nghiệp GV */}
-            <li
-              onClick={() =>
-                setOpenTeacher(!openTeacher)
-              }
-            >
-              <span>
-                <FaBook />
-                Chuẩn nghề nghiệp giáo viên
-              </span>
-
-              {openTeacher ? (
-                <FaChevronDown />
-              ) : (
-                <FaChevronRight />
-              )}
+            <li onClick={() => setOpenTeacher(!openTeacher)}>
+              <span><FaBook className={styles.menuIcon} /> Chuẩn nghề nghiệp giáo viên</span>
+              {openTeacher ? <FaChevronDown className={styles.arrowIcon} /> : <FaChevronRight className={styles.arrowIcon} />}
             </li>
-
-            {openTeacher && (
-              <ul className={styles.subMenu}>
-                <li>Tự đánh giá</li>
-                <li>Minh chứng</li>
-                <li>Báo cáo</li>
-              </ul>
-            )}
 
             {/* Chuẩn nghề nghiệp HT-HP */}
-            <li
-              onClick={() =>
-                setOpenPrincipal(!openPrincipal)
-              }
-            >
-              <span>
-                <FaSchool />
-                Chuẩn nghề nghiệp HT-HP
-              </span>
-
-              {openPrincipal ? (
-                <FaChevronDown />
-              ) : (
-                <FaChevronRight />
-              )}
+            <li onClick={() => setOpenPrincipal(!openPrincipal)}>
+              <span><FaSchool className={styles.menuIcon} /> Chuẩn nghề nghiệp HT-HP</span>
+              {openPrincipal ? <FaChevronDown className={styles.arrowIcon} /> : <FaChevronRight className={styles.arrowIcon} />}
             </li>
-
-            {openPrincipal && (
-              <ul className={styles.subMenu}>
-                <li>Hiệu trưởng</li>
-                <li>Hiệu phó</li>
-                <li>Thống kê</li>
-              </ul>
-            )}
           </ul>
+
+          <div className={styles.menuSectionHeading} style={{ marginTop: "15px" }}>Báo cáo thống kê</div>
         </nav>
 
-        {/* USER MENU */}
+        {/* GÓC TÀI KHOẢN NGƯỜI DÙNG PHÍA DƯỚI SIDEBAR */}
         <div className={styles.userSection}>
-          <button
-            className={styles.userButton}
-            onClick={() =>
-              setShowMenu(!showMenu)
-            }
-          >
-            <Image
-              src="/images/avatar.png"
-              alt="Avatar"
-              width={40}
-              height={40}
-              className={styles.userAvatar}
-            />
-
-            <span>Nguyễn Văn A ▼</span>
-          </button>
-
-          {showMenu && (
-            <div className={styles.dropdownMenu}>
-              <button
-                onClick={() =>
-                  router.push("/profile")
-                }
-              >
-                Thông tin tài khoản
-              </button>
-
-              <button
-                onClick={() =>
-                  router.push(
-                    "/change-password"
-                  )
-                }
-              >
-                Đổi mật khẩu
-              </button>
-
-              <button
-                onClick={handleLogout}
-              >
-                Đăng xuất
-              </button>
+          {showUserMenu && (
+            <div className={styles.userDropdownMenu}>
+              <div className={styles.dropdownItem} onClick={() => { router.push("/profile"); setShowUserMenu(false); }}>
+                <span className={styles.dropdownIcon}>👤</span> Thông tin tài khoản
+              </div>
+              <div className={styles.dropdownItem} onClick={() => { setShowChangePassword(true); setShowUserMenu(false); }}>
+                <span className={styles.dropdownIcon}>🔑</span> Đổi mật khẩu
+              </div>
+              <div className={`${styles.dropdownItem} styles.logoutBtn`} onClick={handleLogout}>
+                <span className={styles.dropdownIcon}>🚪</span> Đăng xuất
+              </div>
             </div>
           )}
+
+          <button
+            type="button"
+            className={styles.userButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowUserMenu(!showUserMenu);
+            }}
+          >
+            <div className={styles.userInfoLeft}>
+              <Image
+                src="/images/avatar.png"
+                alt="Avatar"
+                width={28}
+                height={28}
+                className={styles.userAvatarCircle}
+              />
+              <span>Phan Thanh Tùng</span>
+            </div>
+            <FaChevronRight className={styles.userArrowRight} />
+          </button>
         </div>
       </aside>
 
-      <main className={styles.content}>
+      {/* NỘI DUNG CHÍNH CHỈ TIẾT NGƯỜI DÙNG */}
+      <main className={styles.content} onClick={() => setShowUserMenu(false)}>
         <div className={styles.header}>
           <h2>Chi tiết người dùng</h2>
-
-          <button className={styles.saveButton}>
-            Lưu
-          </button>
+          <div className={styles.headerButtons}>
+            <button type="button" className={styles.cancelButton}>Hủy bỏ</button>
+            <button type="button" className={styles.saveButton}>Lưu</button>
+          </div>
         </div>
 
+        {/* KHU VỰC THẺ TRẮNG CHỨA FORM */}
         <div className={styles.card}>
-  <h3>Thông tin cá nhân</h3>
+          <div className={styles.profileFlexContainer}>
+            
+            {/* Cột trái: Vùng ảnh đại diện + Switch kích hoạt */}
+            <div className={styles.leftProfileSide}>
+              <div className={styles.avatarDashedCircle}>
+                <Image
+                  src="/images/avatar.png"
+                  alt="Avatar"
+                  width={75}
+                  height={75}
+                  className={styles.avatarImgElement}
+                />
+                <div className={styles.avatarOverlayText}>Tải ảnh đại diện</div>
+              </div>
+              <p className={styles.avatarUploadNotice}>
+                *.jpeg, *.jpg, *.png.
+                <br />
+                Kích thước tối đa 5 MB
+              </p>
+              
+              {/* Nút Switch gạt Kích hoạt */}
+              <div className={styles.toggleStatusWrapper}>
+                <span>Kích hoạt</span>
+                <button 
+                  type="button"
+                  className={`${styles.switchTrack} ${isActive ? styles.switchTrackOn : ""}`}
+                  onClick={() => setIsActive(!isActive)}
+                >
+                  <span className={styles.switchThumb} />
+                </button>
+              </div>
+            </div>
 
-  <div className={styles.avatarSection}>
-    <Image
-      src="/images/avatar.png"
-      alt="Avatar"
-      width={120}
-      height={120}
-      className={styles.avatar}
-    />
+            {/* Cột phải: Lưới điền thông tin cá nhân */}
+            <div className={styles.rightFormSide}>
+              <h3 className={styles.blockTitleHeading}>Thông tin cá nhân</h3>
+              
+              <div className={styles.inputGrid}>
+                <div className={styles.outlinedFieldGroup}>
+                  <input placeholder=" " id="username-f" defaultValue="Vna25112020" />
+                  <label htmlFor="username-f">Tên đăng nhập <span className={styles.dangerStar}>*</span></label>
+                </div>
 
-    <button className={styles.uploadBtn}>
-      Tải ảnh lên
-    </button>
-  </div>
+                <div className={styles.outlinedFieldGroup}>
+                  <input placeholder=" " id="fullname-f" defaultValue="Phan Thanh Tùng" />
+                  <label htmlFor="fullname-f">Họ và tên <span className={styles.dangerStar}>*</span></label>
+                </div>
 
-  <div className={styles.grid}>
-    <div>
-      <label className={styles.fieldLabel}>
-        Tên đăng nhập
-      </label>
-      <input />
-    </div>
+                <div className={styles.outlinedFieldGroup}>
+                  <div className={styles.innerIconInputWrapper}>
+                    <input placeholder=" " id="birthday-f" defaultValue="01/06/1995" />
+                    <label htmlFor="birthday-f">Ngày tháng năm sinh</label>
+                    <FaRegCalendarAlt className={styles.innerFieldIcon} />
+                  </div>
+                </div>
 
-    <div>
-      <label className={styles.fieldLabel}>
-        Họ và tên
-      </label>
-      <input />
-    </div>
+                <div className={styles.outlinedFieldGroup}>
+                  <select id="gender-f" defaultValue="Nam">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                  </select>
+                  <label htmlFor="gender-f">Giới tính</label>
+                </div>
 
-    <div>
-      <label className={styles.fieldLabel}>
-        Ngày sinh
-      </label>
-      <input type="date" />
-    </div>
+                <div className={styles.outlinedFieldGroup}>
+                  <input placeholder=" " id="title-f" defaultValue="" />
+                  <label htmlFor="title-f">Chức danh</label>
+                </div>
 
-    <div>
-      <label className={styles.fieldLabel}>
-        Giới tính
-      </label>
-      <select>
-        <option>Nam</option>
-        <option>Nữ</option>
-      </select>
-    </div>
+                <div className={styles.outlinedFieldGroup}>
+                  <select id="role-f" defaultValue="Quản trị viên">
+                    <option value="Quản trị viên">Quản trị viên</option>
+                    <option value="Người dùng">Người dùng</option>
+                  </select>
+                  <label htmlFor="role-f">Vai trò <span className={styles.dangerStar}>*</span></label>
+                </div>
 
-    <div>
-      <label className={styles.fieldLabel}>
-        Chức danh
-      </label>
-      <input />
-    </div>
+                <div className={`${styles.outlinedFieldGroup} ${styles.gridSpan2}`}>
+                  <div className={styles.innerButtonInputWrapper}>
+                    <input type="email" placeholder=" " id="email-f" defaultValue="phanthanhung093@gmail.com" />
+                    <label htmlFor="email-f">Email</label>
+                    <button type="button" className={styles.inlineFieldActionBtn} onClick={() => setShowOtp(true)}>
+                      Thay đổi
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    <div>
-      <label className={styles.fieldLabel}>
-        Vai trò
-      </label>
-      <select>
-        <option>Quản trị viên</option>
-        <option>Người dùng</option>
-      </select>
-    </div>
+          <div className={styles.horizontalRowDivider} />
 
-    <div className={styles.fullWidth}>
-      <label className={styles.fieldLabel}>
-        Email
-      </label>
-      <input type="email" />
-    </div>
-  </div>
+          {/* PHẦN THÔNG TIN LIÊN HỆ PHÍA DƯỚI */}
+          <div className={styles.contactContainerBlock}>
+            <h3 className={styles.blockTitleHeading}>Thông tin liên hệ</h3>
+            <div className={styles.inputGrid}>
+              <div className={styles.outlinedFieldGroup}>
+                <select id="city-f" defaultValue="Thành phố Hồ Chí Minh">
+                  <option value="Thành phố Hồ Chí Minh">Thành phố Hồ Chí Minh</option>
+                </select>
+                <label htmlFor="city-f">Tỉnh/ Thành phố</label>
+              </div>
 
-  <h3 style={{ marginTop: 30 }}>
-    Thông tin liên hệ
-  </h3>
+              <div className={styles.outlinedFieldGroup}>
+                <select id="ward-f" defaultValue="Phường Gò Vấp">
+                  <option value="Phường Gò Vấp">Phường Gò Vấp</option>
+                </select>
+                <label htmlFor="ward-f">Phường/ xã</label>
+              </div>
 
-  <div className={styles.grid}>
-    <div>
-      <label className={styles.fieldLabel}>
-        Tỉnh/Thành phố
-      </label>
+              <div className={`${styles.outlinedFieldGroup} ${styles.gridSpan2}`}>
+                <input placeholder=" " id="address-f" defaultValue="" />
+                <label htmlFor="address-f">Địa chỉ</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
 
-      <select>
-        <option>-- Chọn Tỉnh/Thành phố --</option>
-        <option>TP Hồ Chí Minh</option>
-        <option>Hà Nội</option>
-        <option>Đà Nẵng</option>
-        <option>Cần Thơ</option>
-        <option>Đồng Nai</option>
-        <option>Bình Dương</option>
-        <option>Long An</option>
-        <option>Tây Ninh</option>
-      </select>
-    </div>
+      {/* ================= MODAL LỚP PHỦ 1: THAY ĐỔI EMAIL (NHẬP OTP) ================= */}
+      {showOtp && (
+        <div className={styles.modalBlurOverlay} onClick={() => setShowOtp(false)}>
+          <div className={styles.modalWhiteBox} onClick={(e) => e.stopPropagation()}>
+            <h2 className={styles.modalHeaderTitleBlue}>THAY ĐỔI EMAIL</h2>
+            
+            <p className={styles.modalMiddleDescriptionText}>
+              Chúng tôi đã gửi mã xác minh qua số email cũ <br />
+              <strong className={styles.boldTextEmailTarget}>phanthanhung093@gmail.com</strong> <br />
+              Bạn vui lòng kiểm tra và điền mã xác thực
+            </p>
 
-    <div>
-      <label className={styles.fieldLabel}>
-        Phường/Xã
-      </label>
+            <div className={styles.outlinedFieldGroup} style={{ marginBottom: "8px" }}>
+              <input type="text" id="otp-code-input" placeholder=" " defaultValue="122456" />
+              <label htmlFor="otp-code-input">OTP <span className={styles.dangerStar}>*</span></label>
+            </div>
 
-      <select>
-        <option>-- Chọn Phường/Xã --</option>
-        <option>Phường 1</option>
-        <option>Phường 2</option>
-        <option>Phường 3</option>
-      </select>
-    </div>
+            <div className={styles.countdownTimerDisplay}>00:60</div>
+            <button type="button" className={styles.resendCodeLinkButton}>Chưa nhận được mã? Gửi lại</button>
 
-    <div className={styles.fullWidth}>
-      <label className={styles.fieldLabel}>
-        Địa chỉ chi tiết
-      </label>
+            <button
+              type="button"
+              className={styles.modalActionSubmitBtnBlue}
+              onClick={() => {
+                setShowOtp(false);
+                setShowChangeEmail(true);
+              }}
+            >
+              Xác nhận
+            </button>
 
-      <input />
-    </div>
-  </div>
-</div>
- </main>
+            <button type="button" className={styles.modalActionCloseTextBtn} onClick={() => setShowOtp(false)}>
+              Hủy bỏ
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL LỚP PHỦ 1B: NHẬP EMAIL MỚI ================= */}
+      {showChangeEmail && (
+        <div className={styles.modalBlurOverlay} onClick={() => setShowChangeEmail(false)}>
+          <div className={styles.modalWhiteBox} onClick={(e) => e.stopPropagation()}>
+            <h2 className={styles.modalHeaderTitleBlue}>THAY ĐỔI EMAIL</h2>
+            <p className={styles.modalMiddleDescriptionText} style={{ marginBottom: "20px" }}>
+              Vui lòng nhập email mới
+            </p>
+
+            <div className={styles.outlinedFieldGroup} style={{ marginBottom: "24px" }}>
+              <input type="email" id="new-email-addr" placeholder=" " defaultValue="Phanthanhtung094@gmail.com" />
+              <label htmlFor="new-email-addr">Email <span className={styles.dangerStar}>*</span></label>
+            </div>
+
+            <button type="button" className={styles.modalActionSubmitBtnBlue} onClick={() => setShowChangeEmail(false)}>
+              Lưu
+            </button>
+
+            <button type="button" className={styles.modalActionCloseTextBtn} onClick={() => setShowChangeEmail(false)}>
+              Hủy bỏ
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL LỚP PHỦ 2: ĐỔI MẬT KHẨU ================= */}
+      {showChangePassword && (
+        <div className={styles.modalBlurOverlay} onClick={() => setShowChangePassword(false)}>
+          <div className={styles.passwordModalStructuredCard} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.passwordModalTopBanner}>
+              Đổi mật khẩu
+            </div>
+            
+            <div className={styles.passwordModalInnerPaddingForm}>
+              <div className={styles.outlinedFieldGroup}>
+                <input 
+                  type={showOldPassword ? "text" : "password"} 
+                  id="old-pwd-field" 
+                  placeholder=" " 
+                  defaultValue="oldpassword123" 
+                />
+                <label htmlFor="old-pwd-field">Mật khẩu cũ <span className={styles.dangerStar}>*</span></label>
+                <button 
+                  type="button" 
+                  className={styles.inputAdornmentEyeButton}
+                  onClick={() => setShowOldPassword(!showOldPassword)}
+                >
+                  {showOldPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                </button>
+              </div>
+
+              <div className={styles.outlinedFieldGroup}>
+                <input 
+                  type={showNewPassword ? "text" : "password"} 
+                  id="new-pwd-field" 
+                  placeholder=" " 
+                  defaultValue="12345678" 
+                />
+                <label htmlFor="new-pwd-field">Mật khẩu mới <span className={styles.dangerStar}>*</span></label>
+                <button 
+                  type="button" 
+                  className={styles.inputAdornmentEyeButton}
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                >
+                  {showNewPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                </button>
+              </div>
+
+              <div className={styles.outlinedFieldGroup}>
+                <input 
+                  type={showConfirmPassword ? "text" : "password"} 
+                  id="confirm-pwd-field" 
+                  placeholder=" " 
+                  defaultValue="12345678" 
+                />
+                <label htmlFor="confirm-pwd-field">Nhập lại mật khẩu mới <span className={styles.dangerStar}>*</span></label>
+                <button 
+                  type="button" 
+                  className={styles.inputAdornmentEyeButton}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                </button>
+              </div>
+
+              <div className={styles.passwordModalLowerRightFlexActions}>
+                <button type="button" className={styles.modalActionCloseTextBtn} onClick={() => setShowChangePassword(false)}>
+                  Huỷ bỏ
+                </button>
+                <button type="button" className={styles.passwordModalConfirmSaveBtnBlue} onClick={() => setShowChangePassword(false)}>
+                  Lưu
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
