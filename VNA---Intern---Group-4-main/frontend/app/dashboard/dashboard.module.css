@@ -1,13 +1,22 @@
+.layout,
+.layout *,
+.layout *::before,
+.layout *::after {
+  box-sizing: border-box;
+}
+
 .layout {
   display: flex;
   min-height: 100vh;
-  background: #f4f6fa;
+  background: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
+/* ================= COMPONENT SIDEBAR TRÁI ================= */
 .sidebar {
-  width: 280px;
-  background: #153e75;
-  color: white;
+  width: 260px;
+  background: #111c44;
+  color: #f1f5f9;
   display: flex;
   flex-direction: column;
 }
@@ -16,411 +25,536 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 18px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .logo span {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.3;
+  color: #ffffff;
 }
 
-.menu {
+.navContainer {
+  flex: 1;
+  padding: 16px 0;
+}
+
+.menuSectionHeading {
+  padding: 6px 20px;
+  font-size: 11px;
+  color: #566487;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.menuList {
   list-style: none;
-  padding: 10px 0;
+  padding: 0;
   margin: 0;
 }
 
-.menu li {
+.menuList li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 14px 20px;
+  padding: 11px 20px;
   cursor: pointer;
-  transition: 0.2s;
+  font-size: 13px;
+  font-weight: 500;
+  color: #a3b1cc;
 }
 
-.menu li:hover {
-  background: rgba(255, 255, 255, 0.1);
+.menuList li:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
 }
 
-.menu li span {
+.menuList li span {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.menu li svg {
-  width: 18px;
-  min-width: 18px;
+.menuIcon {
+  font-size: 15px;
+  color: #6a799c;
 }
 
-/* SUB MENU */
+.arrowIcon {
+  font-size: 10px;
+  color: #6a799c;
+}
 
 .subMenu {
   list-style: none;
   margin: 0;
-  padding: 0 0 0 28px;
-  background: rgba(0, 0, 0, 0.15);
+  padding: 2px 0 6px 0;
+  background: #0b1230;
 }
 
 .subMenu li {
-  padding: 10px 0 10px 12px;
-  font-size: 14px;
-  transition: 0.2s;
-  position: relative;
+  padding: 9px 12px 9px 48px;
+  font-size: 13px;
+  color: #8fa0c2;
+  cursor: pointer;
 }
 
 .subMenu li:hover {
-  color: #f5f5f5;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.subMenu li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-
-  color: #f5f5f5;
-  font-size: 10px;
+.menuItemActive {
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff !important;
 }
 
-/* CONTENT */
-
-.content {
-  flex: 1;
-  padding: 25px;
+.subItemActive {
+  color: #ffffff !important;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.header h2 {
-  margin: 0;
-}
-
-.saveButton {
-  background: #1e88e5;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.saveButton:hover {
-  background: #1565c0;
-}
-
-/* CARD */
-
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-}
-
-.card h3 {
-  margin-bottom: 20px;
-}
-
-/* AVATAR */
-
-.avatarSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.avatar {
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #e5e7eb;
-}
-
-.uploadBtn {
-  margin-top: 12px;
-  border: none;
-  background: #1976d2;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.uploadBtn:hover {
-  background: #1565c0;
-}
-
-/* FORM */
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.grid input,
-.grid select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #dcdcdc;
-  border-radius: 6px;
-  outline: none;
-}
-
-.grid input:focus,
-.grid select:focus {
-  border-color: #1976d2;
-}
-
-.fullWidth {
-  grid-column: span 2;
-}
-
-/* USER MENU */
-
+/* KHỐI USER GÓC DƯỚI TRÁI SIDEBAR */
 .userSection {
   margin-top: auto;
-  padding: 15px;
+  padding: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
 }
 
 .userButton {
   width: 100%;
   border: none;
-  background: transparent;
-  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
 
+.userInfoLeft {
   display: flex;
   align-items: center;
   gap: 10px;
-
-  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
 }
 
-.userAvatar {
+.userAvatarCircle {
   border-radius: 50%;
 }
 
-.dropdownMenu {
+.userArrowRight {
+  font-size: 11px;
+  color: #6a799c;
+}
+
+/* SỬA LỖI DROPDOWN MENU TÀI KHOẢN KHÔNG CLICK ĐƯỢC */
+.userDropdownMenu {
   position: absolute;
-  left: 15px;
-  bottom: 70px;
-
-  width: 220px;
-
-  background: white;
-  color: black;
-
+  left: 12px;
+  right: 12px;
+  bottom: 58px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-
-  z-index: 100;
+  z-index: 999; /* Đẩy z-index lên cao */
 }
 
-.dropdownMenu button {
+.dropdownItem {
   width: 100%;
-  border: none;
-  background: white;
-
-  padding: 12px 16px;
+  padding: 11px 14px;
   text-align: left;
-
+  font-size: 13px;
+  color: #334155;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  user-select: none;
 }
 
-.dropdownMenu button:hover {
-  background: #f3f4f6;
-}
-.active {
-  background: rgba(255,255,255,.15);
-  border-left: 4px solid #ffd54f;
+.dropdownItem:hover {
+  background: #f1f5f9;
 }
 
-/* RESPONSIVE */
-
-@media (max-width: 992px) {
-  .sidebar {
-    width: 240px;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .fullWidth {
-    grid-column: span 1;
-  }
+.dropdownIcon {
+  margin-right: 8px;
 }
 
-@media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-  }
-
-  .content {
-    padding: 15px;
-  }
-}
-.fieldLabel {
-  display: block;
-  margin-bottom: 6px;
-
-  color: #111827;
-  font-size: 14px;
-  font-weight: 700;
+.logoutBtn {
+  border-top: 1px solid #f1f5f9 !important;
+  color: #df4747 !important;
 }
 
-.grid > div {
+/* ================= VÙNG NỘI DUNG CHÍNH (CONTENT) ================= */
+.content {
+  flex: 1;
+  padding: 24px 32px;
   display: flex;
   flex-direction: column;
 }
 
-.grid input,
-.grid select {
-  width: 100%;
-  padding: 12px 14px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-  border: 1px solid #cfd8dc;
-  border-radius: 6px;
+.header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
 
-  color: #111827;
+.headerButtons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.cancelButton {
+  background: transparent;
+  border: none;
+  color: #64748b;
   font-size: 14px;
   font-weight: 500;
-
-  background: #fff;
+  cursor: pointer;
 }
 
-.card h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #153e75;
+.saveButton {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
 }
-.modalOverlay {
+
+.card {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.profileFlexContainer {
+  display: flex;
+  gap: 40px;
+}
+
+.leftProfileSide {
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
+}
+
+.avatarDashedCircle {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 1px dashed #cbd5e1;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarImgElement {
+  border-radius: 50%;
+}
+
+.avatarOverlayText {
+  position: absolute;
+  font-size: 10px;
+  color: #64748b;
+}
+
+.avatarUploadNotice {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.toggleStatusWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.switchTrack {
+  width: 36px;
+  height: 20px;
+  background: #cbd5e1;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.switchTrackOn {
+  background: #2563eb;
+}
+
+.switchThumb {
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.switchTrackOn .switchThumb {
+  transform: translateX(16px);
+}
+
+.rightFormSide {
+  flex: 1;
+}
+
+.blockTitleHeading {
+  font-size: 14px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin: 0 0 20px 0;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 18px;
+}
+
+.gridSpan2 {
+  grid-column: span 2;
+}
+
+/* ================= KỸ THUẬT FIELDSET OUTLINED LABEL ĐÈ BIÊN ================= */
+.outlinedFieldGroup {
+  position: relative;
+  width: 100%;
+}
+
+.outlinedFieldGroup input,
+.outlinedFieldGroup select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1e293b;
+  outline: none;
+  background: #ffffff;
+}
+
+.outlinedFieldGroup label {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ffffff;
+  padding: 0 5px;
+  font-size: 13px;
+  color: #94a3b8;
+  transition: all 0.15s ease-out;
+  pointer-events: none; /* Tránh cản trở việc click vào ô input */
+}
+
+/* Khi ô input được focus hoặc có text bên trong */
+.outlinedFieldGroup input:focus ~ label,
+.outlinedFieldGroup input:not(:placeholder-shown) ~ label,
+.outlinedFieldGroup select ~ label {
+  top: 0;
+  font-size: 11px;
+}
+
+.outlinedFieldGroup input:focus ~ label {
+  color: #2563eb;
+}
+
+.dangerStar {
+  color: #ef4444;
+}
+
+.innerIconInputWrapper,
+.innerButtonInputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.innerFieldIcon {
+  position: absolute;
+  right: 14px;
+  color: #94a3b8;
+}
+
+.inlineFieldActionBtn {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 10; /* Cho phép click đè lên input */
+}
+
+.horizontalRowDivider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 32px 0;
+}
+
+/* ================= HỆ THỐNG POP-UP MODAL OVERLAY ================= */
+.modalBlurOverlay {
   position: fixed;
   inset: 0;
-
-  background: rgba(0,0,0,.4);
-
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
-
-  z-index: 999;
+  z-index: 99999; /* Đẩy lên cao hơn hết mọi thành phần */
 }
 
-.modal {
-  width: 450px;
-
-  background: white;
-
-  border-radius: 12px;
-
-  padding: 24px;
-
+.modalWhiteBox {
+  width: 410px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 36px 28px;
   display: flex;
   flex-direction: column;
-
-  gap: 15px;
+  align-items: center;
 }
 
-.modal h2 {
-  text-align: center;
+.modalHeaderTitleBlue {
   color: #2563eb;
-  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
 }
 
-.modal input {
-  padding: 12px;
-
-  border: 1px solid #ddd;
-
-  border-radius: 6px;
+.modalMiddleDescriptionText {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-.primaryBtn {
-  background: #2563eb;
+.boldTextEmailTarget {
+  color: #0f172a;
+  font-weight: 700;
+}
 
-  color: white;
+.countdownTimerDisplay {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 10px;
+}
 
+.resendCodeLinkButton {
+  background: none;
   border: none;
+  color: #94a3b8;
+  font-size: 12px;
+  cursor: pointer;
+  margin-bottom: 28px;
+}
 
-  padding: 12px;
-
+.modalActionSubmitBtnBlue {
+  width: 100%;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 11px;
   border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
 
+.modalActionCloseTextBtn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 13px;
   cursor: pointer;
 }
 
-.primaryBtn:hover {
-  background: #1d4ed8;
-}
-.card h3 {
-  font-weight: 700;
-  color: #111827;
-}
-
-/* Label */
-.fieldLabel {
-  display: block;
-  margin-bottom: 6px;
-
-  font-size: 14px;
-  font-weight: 700; /* đậm */
-  color: #111827;
+/* POPUP MẬT KHẨU */
+.passwordModalStructuredCard {
+  width: 390px;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-/* Input và Select */
-.grid input,
-.grid select {
-  width: 100%;
-  padding: 10px 12px;
+.passwordModalTopBanner {
+  background: #2563eb;
+  color: #ffffff;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
 
-  border: 1px solid #dcdcdc;
+.passwordModalInnerPaddingForm {
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.passwordModalLowerRightFlexActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.passwordModalConfirmSaveBtnBlue {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 8px 26px;
   border-radius: 6px;
-
   font-size: 14px;
-  font-weight: 600; /* đậm hơn */
-
-  color: #111827;
-  background: white;
-}
-
-/* Placeholder */
-.grid input::placeholder {
-  color: #6b7280;
   font-weight: 600;
+  cursor: pointer;
 }
 
-/* Header */
-.header h2 {
-  margin: 0;
-  font-weight: 700;
-  color: #111827;
-}
-
-/* Menu trái */
-.menu li {
-  font-weight: 600;
-}
-
-/* Sub menu */
-.subMenu li {
-  font-weight: 600;
+.inputAdornmentEyeButton {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  z-index: 10;
 }
